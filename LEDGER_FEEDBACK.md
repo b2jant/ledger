@@ -161,3 +161,34 @@ targets were missed. Expansion succeeded with continuation. Reviewer read the
 separate-workspace draft through JJ's shared revision store after direct path
 access was unavailable; the roadmap's absence from the original queried workspace
 was expected. No reviewer modified files.
+
+## 2026-11-09 — Fix intermittent recovery-test failure on PR 1
+
+**Task/initial query (verbatim):** `Fix intermittent Ubuntu CI failure in
+engine::tests::failed_vcs_pass_preserves_the_previous_publication_and_can_retry
+at crates/ledger-daemon/src/engine.rs:2535 where assertion
+!engine.coordinator.lock().running fails after an indexing error; preserve index
+coordination and retry guarantees`. Anchor:
+`failed_vcs_pass_preserves_the_previous_publication_and_can_retry`, known from
+the failed push run `42746136678`. The PR-event Ubuntu job passed the same head;
+this does not erase the observed failure.
+
+**Access/results/fallback:** connected MCP unavailable; existing debug CLI with
+`--mode enhance --fresh` in the isolated PR workspace returned ready `g1`, handle
+`snap:1911d912:g1:5677fac3`, ceiling 1200. First target was the exact failing test;
+`run_index_pass` and `shutdown_indexing` were useful additional targets, while
+`content_hash` was noise. Suggested commands targeted unrelated daemon/expansion
+tests rather than the failing unit test. Advertised body expansion failed as
+expired/wrong-workspace; cause unproven. Direct reads and targeted `rg` verified
+that waiter notification precedes worker-idle publication, and found the same
+racy assertion in `panic_releases_waiters_and_allows_retry_and_shutdown`.
+
+**Fix/checks:** replaced those two immediate idle assertions in the `#[cfg(test)]`
+module of `crates/ledger-daemon/src/engine.rs` with the existing five-second bounded
+`until` synchronization helper. Admission stays open for retry and shutdown still
+checks worker drainage. No production coordination/retrieval behavior changed.
+All **141** workspace tests passed, both affected tests passed **100 executions
+each**, and workspace formatting and Clippy with warnings denied passed. Tests
+used the Xcode 26.5 SDK and the shared build directory from the isolated workspace.
+Updated the roadmap's PR-scope statement and this log. No before/after retrieval
+gain is claimed; hosted verification runs on the pushed head.

@@ -2419,7 +2419,8 @@ mod tests {
         let engine = WorkspaceEngine::open(directory.path())?;
         engine.test_hooks.panic_next.store(true, Ordering::Release);
         assert!(engine.index_workspace().is_err());
-        assert!(!engine.coordinator.lock().running);
+        // The request completes before the worker's next loop marks it idle.
+        until(|| !engine.coordinator.lock().running)?;
         assert_eq!(engine.index_workspace()?, GenerationId(1));
         engine.test_hooks.panic_next.store(true, Ordering::Release);
         engine.trigger_background_index();
@@ -2532,7 +2533,8 @@ mod tests {
             "pub fn target() { let newer = true; }\n",
         )?;
         assert!(engine.index_workspace().is_err());
-        assert!(!engine.coordinator.lock().running);
+        // Wait for worker teardown without closing admission needed by the retry.
+        until(|| !engine.coordinator.lock().running)?;
         assert_eq!(
             engine
                 .published

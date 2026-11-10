@@ -268,7 +268,8 @@ A production release requires all five acceptance sets to pass on its declared
 support matrix, held-out task results to be published, and unresolved relevance or
 compatibility limitations to be documented. Each improvement should ship as
 reviewable implementation slices with same-query before/after evidence. The
-assessment PR itself changes documentation only.
+roadmap adds no runtime behavior. A follow-up CI repair in this PR synchronizes
+the existing VCS-failure and panic-recovery tests with worker idleness.
 
 ## Round table decisions
 
