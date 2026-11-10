@@ -1,0 +1,26 @@
+[package]
+name = "ledger-store"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+arc-swap.workspace = true
+blake3.workspace = true
+ledger-core.workspace = true
+ledger-parser.workspace = true
+ledger-vcs.workspace = true
+lru.workspace = true
+parking_lot.workspace = true
+petgraph.workspace = true
+rusqlite.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

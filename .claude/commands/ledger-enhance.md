@@ -1,0 +1,1 @@
+Call `ledger_context` with `mode: "enhance"` and `task: "$ARGUMENTS"`. Using ONLY the verified `FILES_TO_EDIT`, `FILES_TO_REFERENCE_AND_RESPECT`, and `VERIFICATION_COMMANDS` returned by LEDGER, present a concise 5-line grounded task brief, fetch any needed full bodies via `ledger_expand`, and execute cleanly without running broad exploratory `grep` scans.

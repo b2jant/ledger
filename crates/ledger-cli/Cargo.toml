@@ -1,0 +1,30 @@
+[package]
+name = "ledger-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "ledger"
+path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+ledger-core.workspace = true
+ledger-daemon.workspace = true
+ledger-mcp.workspace = true
+ledger-parser.workspace = true
+ledger-search.workspace = true
+ledger-store.workspace = true
+ledger-vcs.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

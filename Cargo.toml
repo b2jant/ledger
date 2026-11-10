@@ -1,0 +1,72 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ledger-core",
+    "crates/ledger-search",
+    "crates/ledger-parser",
+    "crates/ledger-vcs",
+    "crates/ledger-store",
+    "crates/ledger-daemon",
+    "crates/ledger-mcp",
+    "crates/ledger-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+rust-version = "1.89"
+authors = ["LEDGER Contributors"]
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+unreachable_pub = "warn"
+
+[workspace.lints.clippy]
+unwrap_used = "deny"
+expect_used = "deny"
+dbg_macro = "deny"
+todo = "deny"
+unimplemented = "deny"
+undocumented_unsafe_blocks = "deny"
+needless_pass_by_value = "warn"
+cloned_instead_of_copied = "warn"
+explicit_iter_loop = "warn"
+
+[workspace.dependencies]
+ledger-core = { path = "crates/ledger-core" }
+ledger-search = { path = "crates/ledger-search" }
+ledger-parser = { path = "crates/ledger-parser" }
+ledger-vcs = { path = "crates/ledger-vcs" }
+ledger-store = { path = "crates/ledger-store" }
+ledger-daemon = { path = "crates/ledger-daemon" }
+ledger-mcp = { path = "crates/ledger-mcp" }
+
+anyhow = "1.0"
+arc-swap = "1.9"
+blake3 = "1.8"
+clap = { version = "4.5", features = ["derive"] }
+fd-lock = "4.0"
+grep-matcher = "0.1"
+grep-regex = "0.1"
+grep-searcher = "0.1"
+ignore = "0.4"
+lru = "0.16"
+parking_lot = "0.12"
+petgraph = { version = "0.8", default-features = false, features = ["std", "stable_graph"] }
+regex = "1.11"
+rusqlite = { version = "0.41", default-features = false, features = ["cache", "libsqlite3-sys", "bundled"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tempfile = "3.19"
+thiserror = "2.0"
+tokio = { version = "1.44", features = ["rt-multi-thread", "net", "io-util", "io-std", "sync", "time", "macros", "process", "fs"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+tree-sitter = "0.27"
+tree-sitter-go = "0.25"
+tree-sitter-javascript = "0.25"
+tree-sitter-python = "0.25"
+tree-sitter-rust = "0.24"
+tree-sitter-typescript = "0.23"
