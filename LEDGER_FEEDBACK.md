@@ -92,3 +92,72 @@ credential-pattern scan found only a dummy private-key header in a test fixture.
 set to the active Xcode SDK as documented in README, passed all 141 tests. The
 standing instruction and README push commands were checked against the installed
 CLI. No retrieval behavior changed, so no before/after retrieval claim is made.
+
+## 2026-11-09 — Assess retrieval and production readiness with Gemini
+
+**Task/initial query (verbatim, no anchors):** `Assess how useful LEDGER has been
+at selecting the right commits and pull requests and understanding the semantics
+of user tasks; identify five evidence-based improvements to retrieval, intent
+understanding, production reliability and distribution including Homebrew, and
+prepare a separate production-readiness roadmap PR.`
+
+**Access/freshness:** connected MCP tools were unavailable. Used the existing
+`target/debug/ledger` CLI, newer than Rust sources, in the original checkout with
+`--mode enhance --fresh`. Ready `g12`, handle `snap:076e18eb:g12:7e103907`, effective
+1200-token ceiling (default maximum 2800). Targets were a phase2 fixture test, a
+Git framing test, a GraphQL extractor and a history-noise test. The history test
+and benchmark references were useful leads, but ranking/distribution targets were
+missing and coverage notes did not identify the relevance gap. Expanding the
+advertised benchmark body failed as expired/wrong-workspace; cause was not proved.
+
+**Refinement:** `Assess query_warm_snapshot task understanding, extract_query_terms,
+is_noise_commit history selection, and run_index_pass scaling for production
+readiness`, anchored to the known `query_warm_snapshot`, `is_noise_commit` and
+`run_index_pass`, same mode/freshness/budget. Ready `g13`, handle
+`snap:076e18eb:g13:28921aa3`; `query_warm_snapshot` ranked third behind propagated
+helpers. Its advertised body expansion succeeded with a continuation. Native
+`rg`/reads verified symbol-only FTS population, path-anchor gaps, first-twelve-term
+selection, history gating/noise filters, helper-derived test commands, full file
+reads despite parse caching, subprocess limits and release/packaging gaps.
+
+**Gemini round one:** Gemini 4 Argon with `thinking_level=high`, read-only, used
+fresh enhance CLI query `Assess production-readiness gaps in LEDGER retrieval,
+commit/PR history provenance, evaluation/test discovery, daemon handle lifetimes,
+and release/Homebrew distribution across query_warm_snapshot, extract_query_terms,
+symbols_in_file, is_noise_commit, and run_index_pass`, anchored to those five
+known symbols. Ready `g13`, handle `snap:076e18eb:g13:4edc3a71`; three anchored
+symbols returned, but `content_hash` ranked first. Engine expansion succeeded;
+docs/workflows were absent. Reviewer reported zero tests for suggested `buf` and
+`extract` filters. Parent independently confirmed `parser_and_contracts buf`
+selects **0 tests, 0 benchmarks**; it is a helper and is not validation.
+
+**Checks/limits:** `cargo test --locked -p ledger-store --test history_fts_tests
+-p ledger-daemon --test phase2_vcs_daemon` passed **12 tests**. Initial test and
+discovery attempts failed linking against the newer CommandLineTools SDK;
+retrying with `SDKROOT=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.5.sdk`
+passed. Same unchanged Rust sources as main; no new runtime test was added.
+GitHub initially returned no PRs/releases; actual PR-selection effectiveness is
+unmeasured. Official Homebrew, Cargo and GitHub docs verified distribution/API
+constraints. Source confirmed missing license texts and registry dependency
+metadata. Parent rejected unsupported handle-cause certainty, predicted relevance
+gains, a false claim that Rust 1.97.1 was unavailable (installed locally), and the
+claim that bare Cargo substring filters necessarily fail.
+
+**Changes:** independent JJ workspace from main preserves existing VCS-plan and
+runner changes. Added `PRODUCTION_READINESS.md`, linked it from README and appended
+this entry. No retrieval/indexing/output behavior changed, so no before/after
+improvement is claimed. Local Markdown links and whitespace passed validation;
+exactly five improvements each have a first deliverable and acceptance set.
+
+**Gemini round two:** same requested model/high setting; explicit consensus on
+all five areas, corrections and sequencing, with no blocking findings. Fresh
+enhance query `Review production readiness roadmap and 5 improvements: FTS lexical
+search and path/doc indexing, graph hub ranking and git history filtering,
+candidate test filter generation, incremental watcher and fresh snapshot handle
+validation, and release packaging`, anchors `query_context`, `run_index_pass`,
+`WorkspaceEngine`. Ready `g13`, handle `snap:076e18eb:g13:ec518e54`; FTS methods and
+engine references were useful, `run_git` was noise, and resolver/runner/packaging
+targets were missed. Expansion succeeded with continuation. Reviewer read the
+separate-workspace draft through JJ's shared revision store after direct path
+access was unavailable; the roadmap's absence from the original queried workspace
+was expected. No reviewer modified files.
