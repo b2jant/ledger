@@ -4,6 +4,10 @@ LEDGER compiles local repository evidence into context for coding assistants. It
 
 This release focuses on dependable CLI/MCP delivery. A dashboard, embeddings, collaborative annotations, and `ledger ship` remain future work. See [ARCHITECTURE.md](ARCHITECTURE.md) for implementation boundaries and target design.
 
+See the [production readiness roadmap](PRODUCTION_READINESS.md) for the evidence
+behind five proposed improvements to task understanding, commit/PR retrieval,
+evaluation, indexing reliability and distribution, including Homebrew.
+
 ## Install locally
 
 Use macOS or Linux with a Rust toolchain and a native C compiler (needed by bundled SQLite and parsers). The checked-in CI configuration uses Rust 1.97.1; the workspace declares Rust 1.89 as its minimum, which is not separately exercised by that workflow. Windows is unsupported because the daemon uses Unix sockets and Unix file locking.
